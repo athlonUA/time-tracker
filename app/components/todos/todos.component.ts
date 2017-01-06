@@ -1,47 +1,58 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ITodo } from '../../shared/todo.model';
+import { Todo } from '../../shared/todo.model';
 import { TodoService } from '../../shared/todo.service';
-import { TimeWatchService } from './todo-timewatch/timewatch.service';
-import { TodoFormComponent } from './todo-form/todo-form.component';
-import { TodoProjectComponent } from './todo-project/todo-project.component';
-import { TodoListComponent } from './todo-list/todo-list.component';
+
+import { Project } from '../../shared/project.model';
+import { ProjectService } from '../../shared/project.service';
 
 @Component({
     selector: 'todos',
     templateUrl: './app/components/todos/todos.component.html',
     styleUrls: ['./app/components/todos/todos.component.css'],
 })
-export class TodosComponent implements OnInit {
-    todos: ITodo[];
-    todoService: TodoService;
 
-    constructor(todoService: TodoService) {
+export class TodosComponent implements OnInit {
+    todos: Todo[];
+    projects: Project[];
+    todoService: TodoService;
+    projectService: ProjectService;
+
+    constructor(todoService: TodoService, projectService: ProjectService) {
         this.todos = [];
+        this.projects = [];
         this.todoService = todoService;
+        this.projectService = projectService;
     }
 
     ngOnInit() {
-        this.todoService.getTodos().subscribe(todos => this.todos = todos);
+        this.todoService.getTodos()
+            .subscribe(todos => this.todos = todos);
+
+        this.projectService.getProjects()
+            .subscribe(projects => this.projects = projects);
     }
 
-    onTodoCreated(todo: ITodo): void {
-        this.todoService.addTodo(todo).subscribe(todo => this.addTodo(todo));
+    onTodoCreate(todo: Todo): void {
+        this.todoService.addTodo(todo)
+            .subscribe((todo) => this.addTodo(todo));
     }
 
-    onTodoToggled(todo: ITodo): void {
-        this.todoService.saveTodo(todo).subscribe(todo => {});
+    onTodoToggle(todo: Todo): void {
+        this.todoService.saveTodo(todo)
+            .subscribe(() => {});
     }
 
-    onTodoDeleted(todo: ITodo): void {
-        this.todoService.deleteTodo(todo).subscribe(todo => this.deleteTodo(todo));
+    onTodoDelete(todo: Todo): void {
+        this.todoService.deleteTodo(todo)
+            .subscribe(() => this.deleteTodo(todo));
     }
 
-    private addTodo(todo: ITodo): void {
-        this.todos.push(todo);
+    private addTodo(todo: Todo): void {
+        this.todos.splice(this.todos.length - 1, 0, todo);
     }
 
-    private deleteTodo(todo: ITodo): void {
+    private deleteTodo(todo: Todo): void {
         let index = this.todos.indexOf(todo);
 
         if (index > -1) {

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy,  } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs/Rx';
 import { TimeWatchService } from './timewatch.service';
 
@@ -20,19 +20,18 @@ export class TimerComponent implements OnInit, OnDestroy {
 
     sub: Subscription;
 
-    constructor(private TimeWatchService: TimeWatchService) {
-    }
+    constructor(private TimeWatchService: TimeWatchService) {}
 
     ngOnInit() {
         this.playStopUnsubscribe = this.TimeWatchService.playStop$.subscribe((res: any) => this.playStop(res));
     }
 
     ngOnDestroy() {
-        this.playStopUnsubscribe.unsubscribe();;
+        this.playStopUnsubscribe.unsubscribe();
     }
 
     private playStop(res: any) {
-        if(res.play) {
+        if (res.play) {
             this.startTimer();
         } else if (res.stop) {
             this.stopTimer();

@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { IProject } from '../../../shared/project.model';
-import { ProjectService } from '../../../shared/project.service';
+import { Project } from '../../../shared/project.model';
 
 @Component({
     moduleId: module.id,
@@ -11,39 +10,15 @@ import { ProjectService } from '../../../shared/project.service';
 })
 
 export class TodoProjectComponent {
-    projects: IProject[];
-    projectService: ProjectService;
+    @Input() projects: Project[];
+    @Input() currentProject: Project;
+    @Output() projectSelect: EventEmitter<Project>;
 
-    constructor(projectService: ProjectService) {
-        this.projects = [];
-        this.projectService = projectService;
+    constructor() {
+        this.projectSelect = new EventEmitter<Project>();
     }
 
-    ngOnInit() {
-        this.projectService.getProjects().subscribe(projects => this.projects = projects);
+    onProjectSelect(): void {
+        this.projectSelect.emit(this.currentProject);
     }
-
-    // onTodoCreated(todo: ITodo): void {
-    //     this.todoService.addTodo(todo).subscribe(todo => this.addTodo(todo));
-    // }
-    //
-    // onTodoToggled(todo: ITodo): void {
-    //     this.todoService.saveTodo(todo).subscribe(todo => {});
-    // }
-    //
-    // onTodoDeleted(todo: ITodo): void {
-    //     this.todoService.deleteTodo(todo).subscribe(todo => this.deleteTodo(todo));
-    // }
-    //
-    // private addTodo(todo: ITodo): void {
-    //     this.todos.push(todo);
-    // }
-    //
-    // private deleteTodo(todo: ITodo): void {
-    //     let index = this.todos.indexOf(todo);
-    //
-    //     if (index > -1) {
-    //         this.todos.splice(index, 1);
-    //     }
-    // }
 }

@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { Todo } from '../../../shared/todo.model';
-
+import { Project } from '../../../shared/project.model';
 
 @Component({
     selector: 'todo-item',
@@ -11,20 +11,33 @@ import { Todo } from '../../../shared/todo.model';
 
 export class TodoItemComponent {
     @Input() todo: Todo;
-    @Output() toggled: EventEmitter<Todo>;
-    @Output() deleted: EventEmitter<Todo>;
+    @Input() projects: Project[];
+    @Output() toggle: EventEmitter<Todo>;
+    @Output() delete: EventEmitter<Todo>;
 
     constructor() {
-        this.toggled = new EventEmitter<Todo>();
-        this.deleted = new EventEmitter<Todo>();
+        this.toggle = new EventEmitter<Todo>();
+        this.delete = new EventEmitter<Todo>();
     }
 
-    toggle() {
+    onTodoToggle() {
         this.todo.done = !this.todo.done;
-        this.toggled.emit(this.todo);
+        this.toggle.emit(this.todo);
     }
 
-    delete() {
-        this.deleted.emit(this.todo);
+    onTodoDelete() {
+        this.delete.emit(this.todo);
+    }
+
+    getProjectTitle(): string {
+        let projectTitle = '';
+        if (this.projects.length) {
+            let project = this.projects
+                .find((project: Project) => project.id == this.todo.projectId);
+
+            projectTitle = project.title;
+        }
+
+        return projectTitle;
     }
 }

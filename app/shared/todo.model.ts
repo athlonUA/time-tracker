@@ -1,16 +1,14 @@
-export interface ITodo {
-    id: number;
-    title: string;
-    done: boolean;
-}
+export class Todo {
+    public id: number;
+    public title: string;
+    public projectId: number;
+    public done: boolean = false;
+    public startTime: number;
+    public duration: number = 0;
 
-export class Todo implements ITodo {
-    id: number;
-    title: string;
-    done: boolean;
-
-    constructor(title: string) {
+    constructor(title: string, projectId: number, startTime: number) {
         this.title = title;
-        this.done = false;
+        this.projectId = projectId;
+        this.startTime = startTime;
     }
 }

@@ -1,3 +1,7 @@
-<select>
-    <option *ngFor="let project of projects" [attr.value] = "project.title">{{ project.title }}</option>
+<select [(ngModel)]="currentProject" (change)="onProjectSelect()">
+    <option
+            *ngFor="let project of projects"
+            [ngValue]="project">
+        {{ project.title }}
+    </option>
 </select>

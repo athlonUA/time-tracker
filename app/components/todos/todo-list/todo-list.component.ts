@@ -1,43 +1,47 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { ITodo } from '../../../shared/todo.model';
-import { TodoItemComponent } from '../todo-item/todo-item.component';
+import { Todo } from '../../../shared/todo.model';
+import { Project } from '../../../shared/project.model';
 
 @Component({
     selector: 'todo-list',
     templateUrl: './app/components/todos/todo-list/todo-list.component.html',
     styleUrls: ['./app/components/todos/todo-list/todo-list.component.css'],
 })
+
 export class TodoListComponent {
-    @Input() todos: ITodo[];
-    @Output() toggled: EventEmitter<ITodo>;
-    @Output() deleted: EventEmitter<ITodo>;
+    @Input() todos: Todo[];
+    @Input() projects: Project[];
+    @Output() toggle: EventEmitter<Todo>;
+    @Output() delete: EventEmitter<Todo>;
 
     constructor() {
-        this.toggled = new EventEmitter<ITodo>();
-        this.deleted = new EventEmitter<ITodo>();
+        this.toggle = new EventEmitter<Todo>();
+        this.delete = new EventEmitter<Todo>();
     }
 
-    get sortedTodos(): ITodo[] {
+    onTodoToggle(todo: Todo): void {
+        this.toggle.emit(todo);
+    }
+
+    onTodoDelete(todo: Todo): void {
+        this.delete.emit(todo);
+    }
+
+    get sortedTodos(): Todo[] {
+        return this.sortTodos();
+    }
+
+    private sortTodos(): Todo[] {
         return this.todos
-            .map(todo => todo)
             .sort((a, b) => {
-                if (a.title > b.title) return 1;
-                else if (a.title < b.title) return -1;
-                else return 0;
-            })
-            .sort((a, b) => {
-                if (a.done && !b.done) return 1;
-                else if (!a.done && b.done) return -1;
-                else return 0;
+                if (a.startTime < b.startTime) {
+                    return 1;
+                } else if (a.startTime > b.startTime) {
+                    return -1;
+                } else {
+                    return 0;
+                }
             });
-    }
-
-    onTodoToggled(todo: ITodo): void {
-        this.toggled.emit(todo);
-    }
-
-    onTodoDeleted(todo: ITodo): void {
-        this.deleted.emit(todo);
     }
 }

@@ -2,7 +2,6 @@ import { Injectable, EventEmitter } from '@angular/core';
 
 @Injectable()
 export class TimeWatchService {
-
     private play: boolean = false;
     private stop: boolean = true;
     public playStop$ = new EventEmitter();
@@ -24,5 +23,4 @@ export class TimeWatchService {
             stop: this.stop
         });
     }
-
 }
