@@ -3,7 +3,6 @@
                *ngFor="let todo of sortedTodos"
                [todo]="todo"
                [projects]="projects"
-               (toggle)="onTodoToggle($event)"
                (delete)="onTodoDelete($event)">
     </todo-item>
 </div>

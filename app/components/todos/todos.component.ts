@@ -38,11 +38,6 @@ export class TodosComponent implements OnInit {
             .subscribe((todo) => this.addTodo(todo));
     }
 
-    onTodoToggle(todo: Todo): void {
-        this.todoService.saveTodo(todo)
-            .subscribe(() => {});
-    }
-
     onTodoDelete(todo: Todo): void {
         this.todoService.deleteTodo(todo)
             .subscribe(() => this.deleteTodo(todo));

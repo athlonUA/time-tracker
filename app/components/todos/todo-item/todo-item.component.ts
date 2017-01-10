@@ -12,17 +12,10 @@ import { Project } from '../../../shared/project.model';
 export class TodoItemComponent {
     @Input() todo: Todo;
     @Input() projects: Project[];
-    @Output() toggle: EventEmitter<Todo>;
     @Output() delete: EventEmitter<Todo>;
 
     constructor() {
-        this.toggle = new EventEmitter<Todo>();
         this.delete = new EventEmitter<Todo>();
-    }
-
-    onTodoToggle() {
-        this.todo.done = !this.todo.done;
-        this.toggle.emit(this.todo);
     }
 
     onTodoDelete() {

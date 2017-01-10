@@ -12,16 +12,10 @@ import { Project } from '../../../shared/project.model';
 export class TodoListComponent {
     @Input() todos: Todo[];
     @Input() projects: Project[];
-    @Output() toggle: EventEmitter<Todo>;
     @Output() delete: EventEmitter<Todo>;
 
     constructor() {
-        this.toggle = new EventEmitter<Todo>();
         this.delete = new EventEmitter<Todo>();
-    }
-
-    onTodoToggle(todo: Todo): void {
-        this.toggle.emit(todo);
     }
 
     onTodoDelete(todo: Todo): void {
